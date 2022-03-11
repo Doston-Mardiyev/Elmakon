@@ -56,7 +56,7 @@ def get_data(file_path):
 
     result_data = []
 
-    for url in enumerate(urls_list):
+    for url in enumerate(urls_list[:5]):
         response = s.get(url=url[1], headers=header)
         soup = BeautifulSoup(response.text, 'lxml')
 

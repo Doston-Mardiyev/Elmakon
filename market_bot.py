@@ -12,11 +12,11 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands='start')
 async def start(message: types.Message):
-    start_buttons = ['Phone', '🥊 Перчатки', '🔫 Снайперские винтовки']
+    start_buttons = ['Phone', 'Laptop', 'Devices']
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*start_buttons)
     
-    await message.answer('Выберите категорию', reply_markup=keyboard)
+    await message.answer('Choose products', reply_markup=keyboard)
     
 
 @dp.message_handler(Text(equals='Phone'))
@@ -29,15 +29,22 @@ async def get_discount_knives(message: types.Message):
         data = json.load(file)
         
     for index, item in enumerate(data):
-        card = f'{hlink(item.get("original_url"), item.get("article_title"))}\n' \
-            f'{hbold("Скидка: ")}{item.get("article_selling_info")}%\n' \
-            f'{hbold("Цена: ")}${item.get("prodact_info")}🔥'
-    
-    
+
         if index%20 == 0:
             asyncio.sleep(3)
+
+        # card = f'{hbold(item.get("article_title"))}\n' \
+        #        f'{hbold("INFO: ")}{item.get("article_selling_info")}%\n' \
+        #        f'{hbold("Confugration: ")}${item.get("prodact_info")}🔥'
+            #    f'{hbold("Photo: ")}${item.get("prodact_image")}'
+        # bot.send_photo(chat_id, photo=f'{item.get("prodact_image")}')
+        await message.answer_photo(photo=f'{item.get("prodact_image")}', caption=f'{item.get("article_title")} \n {item.get("prodact_info")}')
+
+    
+    
+       
             
-        await message.answer(card)
+        # await message.answer(card)
         
         
 @dp.message_handler(Text(equals='🔫 Снайперские винтовки'))
